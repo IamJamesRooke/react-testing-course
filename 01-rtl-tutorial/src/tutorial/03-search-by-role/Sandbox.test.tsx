@@ -1,4 +1,5 @@
 import { render, screen, logRoles } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 import Sandbox from "./Sandbox";
 
 describe("03-search-by-role", () => {
@@ -41,4 +42,18 @@ describe("03-search-by-role", () => {
     const asyncButton = await screen.findByRole("button", { name: buttonName });
     expect(asyncButton).toBeInTheDocument();
   });
+
+  test('toggles between unlike and like buttons when clicked', async () => {
+    render(<Sandbox />)
+    const user = userEvent.setup()
+
+    const unlikeButton = screen.getByRole('button', {name: 'unlike button'})
+    expect(unlikeButton).toBeInTheDocument()
+
+    await user.click(unlikeButton)
+
+    expect(screen.queryByRole('button', {name: 'unlike button'})).not.toBeInTheDocument()
+    expect(screen.getByRole('button', {name: 'like button'})).toBeInTheDocument()
+  })
+
 });

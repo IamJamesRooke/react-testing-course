@@ -2,7 +2,7 @@ import {useEffect, useState} from 'react'
 
 const Sandbox = () => {
   const [showAsyncButton, setShowAsyncButton] = useState(false)
-  const [showError, setShowError] = useState(false)
+  const [liked, setLiked] = useState(false)
   
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -10,6 +10,11 @@ const Sandbox = () => {
     }, 1000)
     return () => clearTimeout(timer)
   }, [])
+
+  const handleToggleLike = () => {
+    setLiked((current) => !current)
+  }
+
   return (
     <div>
       <nav>
@@ -24,8 +29,9 @@ const Sandbox = () => {
       <button>Click Me</button>
       <button>Submit</button>
       <button>Cancel</button>
-      {/* conditional error to demonstrate queryByRole */}
-      {showError && <button>Error</button>}
+      <button aria-label={liked ? 'like button' : 'unlike button'} onClick={handleToggleLike}>
+        {liked ? 'Like' : 'Unlike'}
+      </button>
       {/* Demonstrate findByRole */}
       {showAsyncButton && <button>Async Button</button>}
     </div>
